@@ -9,8 +9,10 @@ type Config = {
 
 export type ToggleConfig = {
   [name: string]: {
-    on: Config
-    off: Config
+    on?: Config
+    off?: Config
+    turn_on?: Config
+    turn_off?: Config
   }
 }
 

@@ -1,18 +1,18 @@
 {
-  "name": "settings-on-fire",
-  "displayName": "Settings on 🔥!",
+  "name": "settings-on-fire-cloud",
+  "displayName": "Toggle settings for vs code web",
   "description": "Easily toggle between custom setting configurations",
-  "version": "1.0.3",
-  "publisher": "edb",
+  "version": "1.0.4",
+  "publisher": "luutuankiet",
   "author": "Eric Biewener",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ericbiewener/vscode-settings-on-fire"
+    "url": "https://github.com/luutuankiet/vscode-settings-on-fire"
   },
-  "homepage": "https://github.com/ericbiewener/vscode-settings-on-fire/blob/master/README.md",
+  "homepage": "https://github.com/luutuankiet/vscode-settings-on-fire/blob/master/README.md",
   "bugs": {
-    "url": "https://github.com/ericbiewener/vscode-settings-on-fire/issues"
+    "url": "https://github.com/luutuankiet/vscode-settings-on-fire/issues"
   },
   "categories": [
     "Other"
@@ -29,13 +29,14 @@
     "color": "#111111",
     "theme": "dark"
   },
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "main": "./dist/node/extension.js",
+  "browser": "./dist/web/extension.js",
   "activationEvents": [
     "onCommand:settingsOnFire.toggleSettings"
   ],
-  "engines": {
-    "vscode": "^1.31.0"
-  },
-  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -56,52 +57,17 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "yarn run build",
-    "start": "NODE_ENV=development ./node_modules/.bin/webpack --config webpack.config.ts -w",
-    "build": "NODE_ENV=production ./node_modules/.bin/webpack --config webpack.config.ts",
-    "test": "yarn run compile && node ./node_modules/vscode/bin/test",
-    "postinstall": "node ./node_modules/vscode/bin/install",
-    "prettier": "prettier --write \"**/*.ts\"",
-    "package": "vsce package --yarn",
-    "ext": "rm -rf ~/.vscode/extensions/edb.settings-on-fire-[0-9]* && rm -f *.vsix && yarn run package && code --install-extension *.vsix",
-    "vsce": "vsce publish --yarn"
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "check-types": "tsc --noEmit",
+    "package": "vsce package",
+    "open-in-browser": "npx @vscode/test-web --browserType=chromium --extensionDevelopmentPath=. ./test-workspace"
   },
   "devDependencies": {
-    "@babel/core": "7.6.4",
-    "@babel/plugin-proposal-class-properties": "7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "7.6.2",
-    "@babel/preset-typescript": "7.6.0",
-    "@types/node": "12.12.5",
-    "@types/webpack": "4.39.8",
-    "@typescript-eslint/eslint-plugin": "2.6.0",
-    "@typescript-eslint/parser": "2.6.0",
-    "babel-loader": "8.0.6",
-    "babel-plugin-lodash": "3.3.4",
-    "eslint": "6.6.0",
-    "eslint-config-ericbiewener-typescript": "5.3.2",
-    "husky": "3.0.9",
-    "lint-staged": "9.4.2",
-    "prettier": "1.18.2",
-    "ts-node": "8.4.1",
-    "typescript": "3.6.4",
-    "vscode": "1.1.36",
-    "webpack": "4.41.2",
-    "webpack-cli": "3.3.10"
-  },
-  "lint-staged": {
-    "**/*.{json,yml}": [
-      "prettier --write",
-      "git add"
-    ],
-    "**/*.{ts,tsx,gql}": [
-      "prettier --write",
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "@types/vscode": "^1.74.0",
+    "@vscode/vsce": "^3.2.1",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.2"
   }
 }

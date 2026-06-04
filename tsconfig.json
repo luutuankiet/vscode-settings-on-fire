@@ -1,17 +1,15 @@
 {
-	"compilerOptions": {
-		"module": "esnext",
-		"moduleResolution": "node",
-		"target": "esnext",
-		"outDir": "dist",
-		"sourceMap": true,
-		"strict": true,
-		"allowSyntheticDefaultImports": true,
-	},
-	"include": [
-		"src",
-	],
-	"exclude": [
-		"node_modules"
-	]
+  "compilerOptions": {
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "lib": ["es2022", "WebWorker"],
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "noEmit": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }

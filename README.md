@@ -48,6 +48,8 @@ changed to if you select it. Before ever toggling a setting, it will be consider
 You can specify any amount of settings inside the `on` or `off`
 definitions. These settings will simply be written to your top-level settings object.
 
+State keys may be written as `on`/`off` or `turn_on`/`turn_off` — both spellings are accepted.
+
 ## Labels
 You may also include a `_label` key to provide more clarity around what toggling the setting will
 do:
@@ -72,4 +74,7 @@ do:
 ## Merging vs Overwriting Settings
 Settings that are objects will be merged into existing settings, while any other type of value will
 simply overwrite the previous setting. For example, the `Tests` settings above will merge the values
-in `files.exclude` with whatever the current setting is for that key.
+in `files.exclude` with whatever the current setting is for that key. Object settings are deep-merged recursively, so multiple toggles that write into the same setting (for example `workbench.editorAssociations`) stack together instead of clobbering one another.
+
+## Web support
+This is a web extension: it runs in [vscode.dev](https://vscode.dev) and github.dev (browser) as well as desktop VS Code and Remote-SSH / WSL / Container workspaces. The toggle command uses only the core VS Code configuration API, so behaviour is identical across environments.
