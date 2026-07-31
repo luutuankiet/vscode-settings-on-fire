@@ -1,14 +1,32 @@
-# Settings on 🔥!
+# Settings Toggle for Web
 
-Define groups of settings to be easily toggled on and off. These may be defined in either global
-User Settings or your current Workspace settings.
+Keep several sets of VS Code settings on hand and flip between them from the Command Palette —
+without opening `settings.json` and editing by hand. Groups can live in your global User Settings
+or in the settings of the workspace you currently have open.
 
-## Command
-Provides a `Toggle Settings` command that can be used to toggle groups of settings on and off.
+Unlike most settings-switching extensions, this one is packaged as a **web extension**, so it works
+in a browser tab on [vscode.dev](https://vscode.dev) and github.dev, not just on the desktop.
 
-## Configuration Example
+## Attribution
+
+This project began as a fork of [Settings on 🔥!](https://github.com/ericbiewener/vscode-settings-on-fire)
+by Eric Biewener, used under the MIT license. It has since been rebranded and reworked — the
+browser build, the recursive merge behaviour, the alternate state keys, and the esbuild pipeline are
+additions made in this fork. The original project remains available under its own name and is not
+affiliated with this one.
+
+## Usage
+
+Run **Toggle Setting Group** from the Command Palette. You get a picker listing every group you have
+defined, along with the state each one will move to if you select it. Pick one, and the settings in
+that block are written to your configuration. Groups start out in the `off` state.
+
+## Configuration
+
+Define your groups under `settingsToggle.groups`:
+
 ```json
-"settingsOnFire.toggle": {
+"settingsToggle.groups": {
   "Color Theme": {
     "on": {
       "workbench.colorTheme": "Ayu Mirage"
@@ -21,41 +39,27 @@ Provides a `Toggle Settings` command that can be used to toggle groups of settin
     "on": {
       "files.exclude": {
         "**/__tests__": false,
-        "**/__mocks__": false,
-        "**/__fixtures__": false,
-        "**/*.spec.js": false,
+        "**/*.spec.js": false
       }
     },
     "off": {
       "files.exclude": {
         "**/__tests__": true,
-        "**/__mocks__": true,
-        "**/__fixtures__": true,
-        "**/*.spec.js": true,
+        "**/*.spec.js": true
       }
     }
   }
 }
 ```
 
-The keys `Color Theme` and `Tests` will appear in your command palette:
+`on` and `off` may also be spelled `turn_on` and `turn_off`, whichever reads better to you.
 
-<img src="https://raw.githubusercontent.com/ericbiewener/vscode-settings-on-fire/master/artwork/quickpick-onoff.png" />
+### Labels
 
-The "on" or "off" that you see in the screenshot indicates the state that the setting will be
-changed to if you select it. Before ever toggling a setting, it will be considered to be `off`.
-
-You can specify any amount of settings inside the `on` or `off`
-definitions. These settings will simply be written to your top-level settings object.
-
-State keys may be written as `on`/`off` or `turn_on`/`turn_off` — both spellings are accepted.
-
-## Labels
-You may also include a `_label` key to provide more clarity around what toggling the setting will
-do:
+Add a `_label` key to a state block to control the text shown beside the group name in the picker:
 
 ```json
-"settingsOnFire.toggle": {
+"settingsToggle.groups": {
   "Color Theme": {
     "on": {
       "_label": "Dark",
@@ -69,12 +73,17 @@ do:
 }
 ```
 
-<img src="https://raw.githubusercontent.com/ericbiewener/vscode-settings-on-fire/master/artwork/quickpick-labeled.png" />
+### How values are written
 
-## Merging vs Overwriting Settings
-Settings that are objects will be merged into existing settings, while any other type of value will
-simply overwrite the previous setting. For example, the `Tests` settings above will merge the values
-in `files.exclude` with whatever the current setting is for that key. Object settings are deep-merged recursively, so multiple toggles that write into the same setting (for example `workbench.editorAssociations`) stack together instead of clobbering one another.
+A value that is a plain object is merged into whatever is already configured, recursively — so two
+groups that both write into `workbench.editorAssociations` will stack rather than clobber each
+other. Arrays and scalar values simply replace what was there before.
 
-## Web support
-This is a web extension: it runs in [vscode.dev](https://vscode.dev) and github.dev (browser) as well as desktop VS Code and Remote-SSH / WSL / Container workspaces. The toggle command uses only the core VS Code configuration API, so behaviour is identical across environments.
+## Where it runs
+
+The command relies only on the core VS Code configuration API, so behaviour is the same in the
+browser, on the desktop, and in Remote-SSH, WSL and Dev Container workspaces.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

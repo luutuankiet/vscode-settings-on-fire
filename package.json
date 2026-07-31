@@ -1,18 +1,21 @@
 {
-  "name": "settings-on-fire-cloud",
-  "displayName": "Toggle settings for vs code web",
-  "description": "Easily toggle between custom setting configurations",
-  "version": "1.0.4",
+  "name": "settings-toggle-web",
+  "displayName": "Settings Toggle for Web",
+  "description": "Switch named groups of VS Code settings on and off from the Command Palette. Runs in the browser on vscode.dev and github.dev as well as on the desktop.",
+  "version": "2.0.0",
   "publisher": "luutuankiet",
-  "author": "Eric Biewener",
+  "author": {
+    "name": "Tuan Kiet Luu",
+    "url": "https://github.com/luutuankiet"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/luutuankiet/vscode-settings-on-fire"
+    "url": "https://github.com/luutuankiet/vscode-settings-toggle-web"
   },
-  "homepage": "https://github.com/luutuankiet/vscode-settings-on-fire/blob/master/README.md",
+  "homepage": "https://github.com/luutuankiet/vscode-settings-toggle-web#readme",
   "bugs": {
-    "url": "https://github.com/luutuankiet/vscode-settings-on-fire/issues"
+    "url": "https://github.com/luutuankiet/vscode-settings-toggle-web/issues"
   },
   "categories": [
     "Other"
@@ -20,13 +23,13 @@
   "keywords": [
     "settings",
     "configuration",
-    "settings management",
-    "configuration management",
-    "toggle"
+    "toggle",
+    "web extension",
+    "vscode.dev"
   ],
   "icon": "logo.png",
   "galleryBanner": {
-    "color": "#111111",
+    "color": "#1F2430",
     "theme": "dark"
   },
   "engines": {
@@ -35,23 +38,23 @@
   "main": "./dist/node/extension.js",
   "browser": "./dist/web/extension.js",
   "activationEvents": [
-    "onCommand:settingsOnFire.toggleSettings"
+    "onCommand:settingsToggle.run"
   ],
   "contributes": {
     "commands": [
       {
-        "title": "Toggle Settings",
-        "command": "settingsOnFire.toggleSettings"
+        "title": "Toggle Setting Group",
+        "command": "settingsToggle.run"
       }
     ],
     "configuration": {
       "type": "object",
-      "title": "Settings on 🔥! Configuration",
+      "title": "Settings Toggle for Web",
       "properties": {
-        "settingsOnFire.toggle": {
+        "settingsToggle.groups": {
           "type": "object",
           "default": {},
-          "description": "Your toggle configurations."
+          "description": "Named groups of settings, each with an 'on' and an 'off' block."
         }
       }
     }
