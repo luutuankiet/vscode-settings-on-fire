@@ -1,7 +1,7 @@
 import { ConfigurationTarget, ExtensionContext, window, workspace } from 'vscode'
 import { RichQuickPickItem, ToggleConfig, OnOff } from './types'
 
-const CONFIG_SECTION = 'settingsOnFire.toggle'
+const CONFIG_SECTION = 'settingsToggle.groups'
 
 // Accept both on/off and turn_on/turn_off state keys from user config.
 function getStateConfig(toggleConfig: ToggleConfig, name: string, state: OnOff) {
@@ -37,7 +37,7 @@ export async function toggleSettings(context: ExtensionContext) {
   const { name, newState, store, configTarget } = selection
   const settings = getStateConfig(toggleConfig, name, newState)
   if (!settings) {
-    window.showErrorMessage(`Settings on 🔥: missing '${newState}'/'turn_${newState}' block for '${name}'.`)
+    window.showErrorMessage(`Settings Toggle: missing '${newState}'/'turn_${newState}' block for '${name}'.`)
     return
   }
 
@@ -52,7 +52,7 @@ export async function toggleSettings(context: ExtensionContext) {
     if (val && typeof val === 'object' && !Array.isArray(val)) {
       if (currentConfig && typeof currentConfig !== 'object') {
         window.showErrorMessage(
-          'Settings on 🔥 error! Toggle configuration specified is a different type than the existing one.',
+          'Settings Toggle: this group writes a different type than the existing setting value.',
         )
         return
       }
